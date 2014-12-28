@@ -1,5 +1,11 @@
 {% extends "front.html" %}
 
 {% block content %}
-    welcome frontoffice
+
+    {% for first in firsts %}
+        <div>{{ first.getName }}</div>
+        
+        <div>{{ first.getContent }}</div>
+    {% endfor %}
+    
 {% endblock %}

@@ -1,11 +1,12 @@
 <?php
-namespace Flashweb\Module\Front\Controllers;
+namespace App\Module\Front\Controllers;
 use \Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
+use \Symfony\Component\HttpFoundation\Request;
 
-class IndexController extends \Baudoin\Controllers\AbstractController{
+class IndexController extends \LibApp\Controllers\AbstractController{
 
 	public function index(Request $request, Application $app){
-		return $app['twig']->render( '@front/index/index.html', array());
+		$firsts = $app['orm.em']->getRepository("App\Model\Entities\First")->findAll();
+		return $app['twig']->render( '@front/index/index.html', ["firsts" => $firsts]);
 	}
 }
