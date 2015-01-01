@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace LibApp\Providers\Dflydev\Doctrine;
+namespace LibApp\Providers;
 
 use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
@@ -37,15 +37,17 @@ use Doctrine\ORM\Repository\DefaultRepositoryFactory;
 //use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\Common\Annotations\AnnotationReader;
+use Silex\Application;
+use Silex\ServiceProviderInterface;
 
 /**
  * Doctrine ORM Pimple Service Provider.
  *
  * @author Beau Simensen <beau@dflydev.com>
  */
-class DoctrineOrmServiceProvider
+class DoctrineOrmServiceProvider implements ServiceProviderInterface
 {
-    public function register(\Pimple $app)
+    public function register(Application $app)
     {
         foreach ($this->getOrmDefaults() as $key => $value) {
             if (!isset($app[$key])) {
@@ -437,4 +439,9 @@ class DoctrineOrmServiceProvider
             'orm.default_repository_class' => 'Doctrine\ORM\EntityRepository',
         );
     }
+
+    public function boot(Application $app) {
+        
+    }
+
 }

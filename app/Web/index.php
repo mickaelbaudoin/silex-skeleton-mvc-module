@@ -10,10 +10,10 @@ $app = new \Silex\Application();
 $app['debug'] = true;
 
 //Register providers
-require __DIR__ . '/../Config/providers.php';
+require __DIR__ . '/../Config/Providers.php';
 
 //Routes
-require __DIR__ . '/../Config/routes.php';
+require __DIR__ . '/../Config/Routes.php';
         
 $app->run();
 

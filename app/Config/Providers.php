@@ -1,6 +1,6 @@
 <?php
 
-//Engine template Twig
+//Twig
 $pathViewFront = __DIR__.'/../Module/Front/Views';
 $pathViewAdmin = __DIR__.'/../Module/Admin/Views';
 $pathLayout = __DIR__."/../Layouts";
@@ -10,7 +10,7 @@ $app['twig.loader.filesystem']->addPath($pathViewAdmin, "admin");
 $app['twig.loader.filesystem']->addPath($pathLayout);
 
 //Doctrine ORM
-use LibApp\Providers\Dflydev\Silex\DoctrineOrmServiceProvider,
+use LibApp\Providers\DoctrineOrmServiceProvider,
     Silex\Provider\DoctrineServiceProvider;
 
 $app->register(new DoctrineServiceProvider, array(
@@ -44,5 +44,6 @@ $app->register(new DoctrineOrmServiceProvider,
     ),
    ]);
 
-
+//Mailer
+$app->register(new \LibApp\Providers\MailerServiceProvider());
 
