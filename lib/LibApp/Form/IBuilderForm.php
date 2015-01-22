@@ -6,12 +6,8 @@ namespace LibApp\Form;
  *
  * @author mickael
  */
-interface IForm {
+interface IBuilderForm {
    public function build();
-   
-   public function isValid();
-   
-   public function bind($request);
    
    public function createView();
 }

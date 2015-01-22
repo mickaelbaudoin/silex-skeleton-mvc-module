@@ -7,7 +7,9 @@ namespace LibApp\Form;
  * @author mickael
  */
 interface IAdapterBuilderForm {
-    public function createBuilder();
+    public function createBuildForm($data);
     
-    public function add();
+    public function add($input, $type, $options = array());
+    
+    public function getForm();
 }

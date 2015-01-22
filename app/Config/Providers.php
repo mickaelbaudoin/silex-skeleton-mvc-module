@@ -1,5 +1,23 @@
 <?php
 
+//Session
+$app->register(new Silex\Provider\SessionServiceProvider());
+
+//Mailer
+$app->register(new \LibApp\Providers\MailerServiceProvider());
+
+//Form
+$app->register(new \LibApp\Providers\FormServiceProvider());
+
+//Translator
+$app->register(new \LibApp\Providers\TranslatorServiceProvider(), 
+        array(
+            'locale' => 'fr',
+            'loader' => array('format' => 'yaml', 'class' => new \Symfony\Component\Translation\Loader\YamlFileLoader()),
+            'ressource' => array('format' => 'yaml', 'path' => __DIR__ . '/../Locale/')
+        )
+);
+
 //Twig
 $pathViewFront = __DIR__.'/../Module/Front/Views';
 $pathViewAdmin = __DIR__.'/../Module/Admin/Views';
@@ -44,6 +62,7 @@ $app->register(new DoctrineOrmServiceProvider,
     ),
    ]);
 
-//Mailer
-$app->register(new \LibApp\Providers\MailerServiceProvider());
+
+
+
 

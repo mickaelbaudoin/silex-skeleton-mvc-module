@@ -5,6 +5,8 @@ namespace LibApp\Form;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\SessionCsrfProvider;
 use Symfony\Component\Form\Forms;
+use Symfony\Component\Form\ResolvedFormTypeFactory;
+use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 
 /**
  * Description of AdapterBuilderFormSymfony
@@ -12,9 +14,10 @@ use Symfony\Component\Form\Forms;
  * @author mickael
  */
 class AdapterBuilderFormSymfony implements IAdapterBuilderForm{
-    private $_builder;
     
-    public function __construct() {  
+    private $_formFactory;
+    
+    public function __construct($app) {
         if (!class_exists('Locale') && !class_exists('Symfony\Component\Locale\Stub\StubLocale')) {
             throw new \RuntimeException('You must either install the PHP intl extension or the Symfony Locale Component to use the Form extension.');
         }
@@ -29,27 +32,24 @@ class AdapterBuilderFormSymfony implements IAdapterBuilderForm{
             require_once $path.'/Locale.php';
             require_once $path.'/NumberFormatter.php';
         }
-
-        $formSecret = md5(__DIR__);
-
-        $formFactory = Forms::createFormFactoryBuilder()->getFormFactory();
-
-        $app['form.csrf_provider'] = $app->share(function ($app) use($formSecret) {
-            if (isset($app['session'])) {
-                return new SessionCsrfProvider($app['session'], $formSecret);
-            }
-            return new DefaultCsrfProvider($formSecret);
-        });
+        $this->_formFactory = Forms::createFormFactoryBuilder()
+                ->setResolvedTypeFactory(new ResolvedFormTypeFactory())
+                ->addTypeExtensions($app['form.type.extensions'])
+                ->addTypes($app['form.types'])
+                ->addTypeGuessers($app['form.type.guessers'])
+                ->setResolvedTypeFactory($app['form.resolved_type_factory'])
+                ->getFormFactory();
+    }
         
-        $this->_builder = $formFactory;
+    public function createBuildForm($data){
+        return $this->_formFactory->createBuilder('form', $data);
     }
     
-    public function createBuilder($type, $data) {
-        $this->_builder->createBuilder($type, $data);
-        return $this->_builder->getForm();
+    public function add($input, $type, $options = array()) {
+        return $this->_formFactory->add($input, $type, $options);
     }
     
-    public function add($input, $type, $options) {
-        return $this->_builder->add($input, $type, $options);
+    public function getForm(){
+        return $this->_formFactory->getForm();
     }
 }

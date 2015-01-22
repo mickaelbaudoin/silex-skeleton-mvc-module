@@ -2,6 +2,9 @@
 
 {% block content %}
 
-    test
+    <form action="/silex/mail" method="post">
+        {{ form_widget(form) }}
+        <input type="submit" name="submit" />
+    </form>
     
 {% endblock %}

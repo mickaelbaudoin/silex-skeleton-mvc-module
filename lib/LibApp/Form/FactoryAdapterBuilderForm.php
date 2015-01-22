@@ -9,10 +9,10 @@ namespace LibApp\Form;
  */
 class FactoryAdapterBuilderForm {
     
-    public function createBuilder($builderName) {
+    public function createBuilder($builderName, $app) {
         switch ($builderName){
             case "symfony":
-                return new AdapterBuilderFormSymfony();
+                return new AdapterBuilderFormSymfony($app);
         }
     }
 }

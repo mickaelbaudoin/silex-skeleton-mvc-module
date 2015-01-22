@@ -52,15 +52,15 @@ class AdapterSwiftMailer implements IMailer{
     public function send(array $options = array()) {
         
         if(!is_array($options['from'])){
-            throw new Exception("l'index from du tableau d'option n'est pas un tableau");
+            throw new \Exception("l'index from du tableau d'option n'est pas un tableau");
         }
         
         if(!is_array($options['to'])){
-            throw new Exception("l'index from du tableau d'option n'est pas un tableau");
+            throw new \Exception("l'index from du tableau d'option n'est pas un tableau");
         }
         
         if(!is_string($options['message'])){
-            throw new Exception("l'index from du tableau d'option n'est pas une chaine de cractere");
+            throw new \Exception("l'index from du tableau d'option n'est pas une chaine de cractere");
         }
         
         // Create a message
