@@ -1,7 +1,13 @@
 <?php
 use LibApp\Providers\DoctrineOrmServiceProvider,
-Silex\Provider\DoctrineServiceProvider,
-Symfony\Component\Translation\Loader\YamlFileLoader;
+    Silex\Provider\DoctrineServiceProvider;
+
+
+define("PATH_VIEWS_FRONT", __DIR__.'/../Module/Front/Views');
+define("PATH_VIEWS_ADMIN", __DIR__.'/../Module/Admin/Views');
+define("PATH_LAYOUTS", __DIR__."/../Layouts");
+define("PATH_PROXIES", realpath(__DIR__."/../Model/Proxies"));
+define("PATH_ENTITIES", realpath(__DIR__."/../Model/Entities"));
 
 //Session
 $app->register(new Silex\Provider\SessionServiceProvider());
@@ -16,23 +22,18 @@ $app->register(new \LibApp\Providers\FormServiceProvider());
 $app->register(new \LibApp\Providers\TranslatorServiceProvider(), 
         array(
             'locale' => 'fr',
-            'loader' => array('format' => 'yaml', 'class' => new YamlFileLoader()),
+            'loader' => array('format' => 'yaml', 'class' => new \Symfony\Component\Translation\Loader\YamlFileLoader()),
             'ressource' => array('format' => 'yaml', 'path' => __DIR__ . '/../Locale/')
         )
 );
 
 //Twig
-$pathViewFront = __DIR__.'/../Module/Front/Views';
-$pathViewAdmin = __DIR__.'/../Module/Admin/Views';
-$pathLayout = __DIR__."/../Layouts";
 $app->register(new Silex\Provider\TwigServiceProvider(), array());
-$app['twig.loader.filesystem']->addPath($pathViewFront, "front");
-$app['twig.loader.filesystem']->addPath($pathViewAdmin, "admin");
-$app['twig.loader.filesystem']->addPath($pathLayout);
+$app['twig.loader.filesystem']->addPath(PATH_VIEWS_FRONT, "front");
+$app['twig.loader.filesystem']->addPath(PATH_VIEWS_ADMIN, "admin");
+$app['twig.loader.filesystem']->addPath(PATH_LAYOUTS);
 
 //Doctrine ORM
-
-
 $app->register(new DoctrineServiceProvider, array(
     "db.options" => array(
         "driver" 	=> "pdo_mysql",
@@ -44,13 +45,9 @@ $app->register(new DoctrineServiceProvider, array(
     ),
 ));
 
-
-$pathProxies = realpath(__DIR__."/../Model/Proxies");
-$pathEntities = realpath(__DIR__."/../Model/Entities");
-
 $app->register(new DoctrineOrmServiceProvider, 
     [
-    "orm.proxies_dir" => $pathProxies,
+    "orm.proxies_dir" => PATH_PROXIES,
     "orm.auto_generate_proxies" => true,
     "orm.em.options" => array(
         "mappings" => array(
@@ -58,13 +55,12 @@ $app->register(new DoctrineOrmServiceProvider,
             array(
                 "type" => "annotation",
                 "namespace" => "App\\Model\\Entities\\",
-                "path" => $pathEntities,
+                "path" => PATH_ENTITIES,
             ),
         ),
     ),
    ]);
 
-//Resolver (Injection $app in constructor controllers)
 $app->register(new LibApp\Providers\ControllerResolverServiceProvider());
 
 
