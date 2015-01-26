@@ -1,0 +1,9 @@
+admin.index:
+  path: /index
+  defaults: { _controller: 'App\Module\Admin\Controllers\IndexController::index' }
+  methods:  [GET,POST]
+  
+admin.default:
+  path: /
+  defaults: { _controller: 'App\Module\Admin\Controllers\IndexController::index' }
+  methods:  [GET,POST]

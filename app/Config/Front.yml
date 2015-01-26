@@ -1,0 +1,14 @@
+front.index:
+  path: /index
+  defaults: { _controller: 'App\Module\Front\Controllers\IndexController::index' }
+  methods:  [GET,POST]
+  
+front.default:
+  path: /
+  defaults: { _controller: 'App\Module\Front\Controllers\IndexController::index' }
+  methods:  [GET,POST]
+ 
+front.mail:
+  path: /mail
+  defaults: { _controller: 'App\Module\Front\Controllers\IndexController::testMail' }
+  methods:  [GET,POST]

@@ -33,11 +33,10 @@ class AdapterBuilderFormSymfony implements IAdapterBuilderForm{
             require_once $path.'/NumberFormatter.php';
         }
         $this->_formFactory = Forms::createFormFactoryBuilder()
-                ->setResolvedTypeFactory(new ResolvedFormTypeFactory())
+                ->setResolvedTypeFactory($app['form.resolved_type_factory'])
                 ->addTypeExtensions($app['form.type.extensions'])
                 ->addTypes($app['form.types'])
                 ->addTypeGuessers($app['form.type.guessers'])
-                ->setResolvedTypeFactory($app['form.resolved_type_factory'])
                 ->getFormFactory();
     }
         

@@ -1,4 +1,7 @@
 <?php
+use LibApp\Providers\DoctrineOrmServiceProvider,
+Silex\Provider\DoctrineServiceProvider,
+Symfony\Component\Translation\Loader\YamlFileLoader;
 
 //Session
 $app->register(new Silex\Provider\SessionServiceProvider());
@@ -13,7 +16,7 @@ $app->register(new \LibApp\Providers\FormServiceProvider());
 $app->register(new \LibApp\Providers\TranslatorServiceProvider(), 
         array(
             'locale' => 'fr',
-            'loader' => array('format' => 'yaml', 'class' => new \Symfony\Component\Translation\Loader\YamlFileLoader()),
+            'loader' => array('format' => 'yaml', 'class' => new YamlFileLoader()),
             'ressource' => array('format' => 'yaml', 'path' => __DIR__ . '/../Locale/')
         )
 );
@@ -28,8 +31,7 @@ $app['twig.loader.filesystem']->addPath($pathViewAdmin, "admin");
 $app['twig.loader.filesystem']->addPath($pathLayout);
 
 //Doctrine ORM
-use LibApp\Providers\DoctrineOrmServiceProvider,
-    Silex\Provider\DoctrineServiceProvider;
+
 
 $app->register(new DoctrineServiceProvider, array(
     "db.options" => array(
@@ -62,6 +64,8 @@ $app->register(new DoctrineOrmServiceProvider,
     ),
    ]);
 
+//Resolver (Injection $app in constructor controllers)
+$app->register(new LibApp\Providers\ControllerResolverServiceProvider());
 
 
 

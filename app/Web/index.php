@@ -13,7 +13,6 @@ $loader = require __DIR__ .'/../../vendor/autoload.php';
 
 $app = new Application();
 
-
 //debug
 $app['debug'] = true;
 
@@ -29,6 +28,6 @@ $app['routes'] = $app->extend('routes', function (RouteCollection $routes, Appli
         return $routes;
     }
 );
-        
+
 $app->run();
 
