@@ -14,16 +14,16 @@ class ControllerResolverServiceProvider implements ServiceProviderInterface
     {
         $app['resolver'] = $app->share(function () use ($app) {
                       
-            //Logger
+            //test
             if(isset($app['logger'])){
                 $logger = $app['logger'];
             }else{
                 $logger = null;
             }
             
-            $resolver = new ControllerResolver($logger);
+            $defaultResolver = new ControllerResolver($logger);
             
-            return new DecoratorControllerResolverSymfony($resolver, $app, $logger);
+            return new DecoratorControllerResolverSymfony($defaultResolver, $app, $logger);
         });
     }
 
